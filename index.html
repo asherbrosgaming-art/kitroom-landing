@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The Kit Room – Precision Hosting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --kr-bg: #050507;
+      --kr-bg-soft: #0c0c10;
+      --kr-bg-card: #111118;
+      --kr-gold: #f5b021;
+      --kr-gold-soft: rgba(245, 176, 33, 0.14);
+      --kr-text-main: #f9fafb;
+      --kr-text-soft: #a1a1b3;
+      --kr-border-subtle: #1e1e27;
+      --kr-danger: #f97373;
+      --kr-success: #4ade80;
+      --kr-accent: #22c55e;
+      --kr-radius-lg: 18px;
+      --kr-radius-xl: 26px;
+      --kr-shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #181820 0, #050507 65%);
+      color: var(--kr-text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
+
+    /* NAVBAR */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(15, 15, 22, 0.94), rgba(9, 9, 14, 0.98));
+      border: 1px solid rgba(245, 176, 33, 0.16);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+      position: sticky;
+      top: 16px;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      background: radial-gradient(circle at 25% 0%, #ffe9b0 0, #f5b021 34%, #b87312 85%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 26px rgba(245, 176, 33, 0.7);
+    }
+
+    .logo-mark span {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1b1305;
+      letter-spacing: -0.06em;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      color: var(--kr-text-soft);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      color: var(--kr-text-soft);
+    }
+
+    .nav-link {
+      padding: 4px 0;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(245, 176, 33, 0), rgba(245, 176, 33, 0.8), rgba(245, 176, 33, 0));
+      opacity: 0;
+      transform: scaleX(0.5);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .nav-link:hover::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .nav-cta-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-gold-outline {
+      background: rgba(5, 5, 7, 0.6);
+      border-color: rgba(245, 176, 33, 0.5);
+      color: var(--kr-gold);
+    }
+
+    .btn-gold-outline:hover {
+      background: rgba(245, 176, 33, 0.12);
+      transform: translateY(-0.5px);
+    }
+
+    .btn-gold-solid {
+      background: linear-gradient(135deg, #ffd76b, #f5b021, #e39410);
+      color: #291705;
+      box-shadow: 0 12px 30px rgba(245, 176, 33, 0.35);
+    }
+
+    .btn-gold-solid:hover {
+      box-shadow: 0 16px 40px rgba(245, 176, 33, 0.45);
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+    }
+
+    .btn-small {
+      padding: 6px 13px;
+      font-size: 12px;
+    }
+
+    /* HERO */
+    .hero {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr);
+      gap: 26px;
+      align-items: center;
+    }
+
+    .hero-main-card {
+      padding: 26px 26px 24px;
+      border-radius: var(--kr-radius-xl);
+      background:
+        radial-gradient(circle at top, rgba(245, 176, 33, 0.22) 0, transparent 55%),
+        radial-gradient(circle at bottom, rgba(17, 24, 39, 0.9) 0, #050507 70%);
+      border: 1px solid rgba(245, 176, 33, 0.24);
+      box-shadow: var(--kr-shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(6, 95, 70, 0.2);
+      border: 1px solid rgba(45, 212, 191, 0.45);
+      color: #a5f3fc;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 18px;
+    }
+
+    .hero-pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 4vw, 40px);
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .hero-title span.gold {
+      color: var(--kr-gold);
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--kr-text-soft);
+      max-width: 470px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .btn-large {
+      padding: 11px 20px;
+      font-size: 14px;
+    }
+
+    .btn-icon {
+      font-size: 16px;
+      margin-left: 2px;
+    }
+
+    .hero-footnote {
+      font-size: 12px;
+      color: var(--kr-text-soft);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-footnote span.badge {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #e5e7eb;
+    }
+
+    /* HERO SIDE CARD */
+    .hero-side-card {
+      padding: 18px 18px 16px;
+      border-radius: var(--kr-radius-lg);
+      background: radial-gradient(circle at top, rgba(245, 176, 33, 0.18) 0, rgba(11, 11, 16, 0.98) 52%);
+      border: 1px solid rgba(245, 176, 33, 0.28);
+      box-shadow: var(--kr-shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero-side-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+
+    .hero-side-title {
+      font-weight: 600;
+    }
+
+    .hero-side-badge {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      color: #e5e7eb;
+    }
+
+    .hero-side-metric-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .hero-side-metric {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.94);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--kr-text-soft);
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 17px;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .metric-chip {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.2);
+      border: 1px solid rgba(22, 163, 74, 0.7);
+      color: #bbf7d0;
+    }
+
+    .hero-side-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--kr-text-soft);
+    }
+
+    /* FEATURES / MINI DASHBOARD */
+    .section-row {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .card {
+      background: var(--kr-bg-card);
+      border-radius: var(--kr-radius-lg);
+      border: 1px solid var(--kr-border-subtle);
+      padding: 18px 18px 16px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--kr-text-soft);
+    }
+
+    .card-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: #e5e7eb;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 4px;
+    }
+
+    .feature-item {
+      padding: 12px 12px 10px;
+      border-radius: 14px;
+      background: radial-gradient(circle at top left, rgba(245, 176, 33, 0.1) 0, rgba(17, 24, 39, 0.96) 54%);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .feature-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--kr-text-soft);
+      margin-bottom: 6px;
+    }
+
+    .feature-headline {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feature-desc {
+      font-size: 11px;
+      color: var(--kr-text-soft);
+    }
+
+    .mini-stats-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .mini-stat {
+      flex: 1;
+      padding: 10px 11px;
+      border-radius: 11px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px dashed rgba(75, 85, 99, 0.9);
+      font-size: 11px;
+    }
+
+    .mini-stat-label {
+      color: var(--kr-text-soft);
+      margin-bottom: 2px;
+    }
+
+    .mini-stat-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .status-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--kr-text-soft);
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 10px;
+      border-radius: 11px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(31, 41, 55, 0.95);
+    }
+
+    .status-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--kr-success);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+    }
+
+    .status-pill {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.2);
+      border: 1px solid rgba(22, 163, 74, 0.7);
+      color: #bbf7d0;
+    }
+
+    /* FOOTER STRIP */
+    .footer-strip {
+      margin-top: 24px;
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(30, 64, 175, 0.6);
+      background: radial-gradient(circle at left, rgba(37, 99, 235, 0.35) 0, rgba(15, 23, 42, 0.96) 56%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+
+    .footer-strip span.muted {
+      color: var(--kr-text-soft);
+    }
+
+    .footer-kb-link {
+      font-weight: 500;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero,
+      .section-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .nav {
+        padding-inline: 14px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .page-shell {
+        padding-inline: 14px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-main-card {
+        padding: 22px 18px 18px;
+      }
+
+      .hero-cta-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .feature-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .footer-strip {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <div class="logo-mark">
+          <span>KR</span>
+        </div>
+        <div class="logo-text">
+          <div class="logo-title">THE KIT ROOM</div>
+          <div class="logo-sub">Precision hosting for serious creators</div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#status" class="nav-link">Status</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#overview" class="nav-link">Overview</a>
+      </nav>
+
+      <div class="nav-cta-group">
+        <a
+          href="https://panel.thekitroom.net/"
+          target="_blank"
+          rel="noreferrer"
+          class="btn btn-gold-outline btn-small"
+        >
+          Panel
+        </a>
+        <a
+          href="https://billing.thekitroom.net/login"
+          target="_blank"
+          rel="noreferrer"
+          class="btn btn-gold-solid btn-small"
+        >
+          Start now
+        </a>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <main>
+      <section class="hero">
+        <div class="hero-main-card">
+          <div class="hero-pill">
+            <span class="hero-pill-dot"></span>
+            <span>Systems online</span>
+          </div>
+
+          <h1 class="hero-title">
+            Precision Hosting For
+            <span class="gold">Serious Creators.</span>
+          </h1>
+
+          <p class="hero-sub">
+            Fast deployments, bulletproof uptime, and instant panel access.
+            Step into the high‑end server room built for those who do not compromise on performance.
+          </p>
+
+          <div class="hero-cta-row">
+            <a
+              href="https://billing.thekitroom.net/login"
+              target="_blank"
+              rel="noreferrer"
+              class="btn btn-gold-solid btn-large"
+            >
+              Deploy Server / Start Now
+              <span class="btn-icon">➜</span>
+            </a>
+
+            <a
+              href="https://panel.thekitroom.net/"
+              target="_blank"
+              rel="noreferrer"
+              class="btn btn-gold-outline btn-large"
+            >
+              Panel / Access Panel
+            </a>
+          </div>
+
+          <div class="hero-footnote">
+            <span class="badge">Low latency routes</span>
+            <span>Deploy in minutes with The Kit Room’s managed panel.</span>
+          </div>
+        </div>
+
+        <aside class="hero-side-card" id="status">
+          <div class="hero-side-header">
+            <span class="hero-side-title">Live network snapshot</span>
+            <span class="hero-side-badge">Sample data</span>
+          </div>
+
+          <div class="hero-side-metric-row">
+            <div class="hero-side-metric">
+              <div class="metric-label">Online servers</div>
+              <div class="metric-value">
+                42
+                <span class="metric-chip">All shards healthy</span>
+              </div>
+            </div>
+            <div class="hero-side-metric">
+              <div class="metric-label">Average latency</div>
+              <div class="metric-value">
+                18
+                <span style="font-size: 12px; color: var(--kr-text-soft)">ms</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-side-footer">
+            <span>Active locations: Frankfurt, London, Singapore</span>
+            <span>99.99% sample uptime</span>
+          </div>
+        </aside>
+      </section>
+
+      <!-- FEATURES + MINI DASHBOARD -->
+      <section class="section-row" id="features">
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">Built for game hosting</h2>
+            <span class="card-tag">Feature set</span>
+          </div>
+
+          <div class="feature-grid">
+            <div class="feature-item">
+              <div class="feature-label">Deploy</div>
+              <div class="feature-headline">Fast deploy pipelines</div>
+              <div class="feature-desc">
+                Bring new servers online in minutes with opinionated defaults that still let power users tune everything.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-label">Protect</div>
+              <div class="feature-headline">Layered DDoS protection</div>
+              <div class="feature-desc">
+                Traffic is filtered at the edge before it ever reaches your instance, keeping shards smooth when lobbies spike.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-label">Control</div>
+              <div class="feature-headline">Instant panel access</div>
+              <div class="feature-desc">
+                Jump straight into the panel to restart, scale, or re‑image — no tickets or waiting rooms in between.
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-label">Support</div>
+              <div class="feature-headline">Operators on standby</div>
+              <div class="feature-desc">
+                When something feels off, a human can look at your graph, not just a bot sending canned replies.
+              </div>
+            </div>
+          </div>
+
+          <div class="mini-stats-row">
+            <div class="mini-stat">
+              <div class="mini-stat-label">Cold start to live slot</div>
+              <div class="mini-stat-value">&lt; 2 min</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-stat-label">Regions available</div>
+              <div class="mini-stat-value">3+</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" id="overview">
+          <div class="card-header">
+            <h2 class="card-title">Session overview</h2>
+            <span class="card-tag">Visual snapshot</span>
+          </div>
+
+          <div class="status-list">
+            <div class="status-row">
+              <div class="status-label">
+                <span class="status-dot"></span>
+                Core hosting cluster
+              </div>
+              <span class="status-pill">Operational</span>
+            </div>
+            <div class="status-row">
+              <div class="status-label">
+                <span class="status-dot"></span>
+                Control panel
+              </div>
+              <span class="status-pill">Responsive</span>
+            </div>
+            <div class="status-row">
+              <div class="status-label">
+                <span class="status-dot" style="background: var(--kr-accent); box-shadow: 0 0 0 4px rgba(34,197,94,0.22);"></span>
+                Deploy pipeline
+              </div>
+              <span class="status-pill">Ready for new servers</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- FOOTER STRIP -->
+      <section class="footer-strip">
+        <div>
+          Need to jump straight into your stack?
+          <span class="footer-kb-link">Open the panel</span> or kick off a new deployment in billing.
+        </div>
+        <div>
+          <span class="muted">Shortcuts:</span>
+          <a href="https://panel.thekitroom.net/" target="_blank" rel="noreferrer">Panel</a> ·
+          <a href="https://billing.thekitroom.net/login" target="_blank" rel="noreferrer">Billing</a>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
