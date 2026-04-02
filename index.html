@@ -2,31 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>The Kit Room — Premium Hosting</title>
+  <title>The Kit Room — Storm Edition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  //fonts.googleapis.com" />
+  //fonts.gstatic.com" crossorigin />
+  //fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root{
-      --bg:#050506;
-      --bg-2:#0a0a0d;
-      --panel:rgba(12,12,18,.74);
-      --panel-2:rgba(16,16,22,.92);
-      --line:rgba(255,198,70,.14);
-      --line-2:rgba(255,198,70,.32);
+      --bg:#030304;
+      --bg-soft:#09090b;
+      --panel:rgba(10,10,14,.72);
+      --panel-strong:rgba(14,14,20,.92);
       --gold:#f5b021;
-      --gold-2:#ffd76b;
-      --gold-3:#fff0be;
-      --text:#f8f9fc;
+      --gold-2:#ffd46a;
+      --gold-3:#fff0bf;
+      --text:#f8f8fb;
       --muted:#a7adba;
-      --muted-2:#768090;
-      --blue:#60a5fa;
+      --muted-2:#737d8d;
+      --line:rgba(255,205,90,.14);
+      --line-2:rgba(255,205,90,.28);
       --green:#22c55e;
-      --shadow:0 30px 90px rgba(0,0,0,.58);
-      --radius:30px;
-      --radius-sm:18px;
-      --container:1340px;
+      --shadow:0 30px 100px rgba(0,0,0,.6);
+      --radius-xl:36px;
+      --radius-lg:24px;
+      --radius-md:18px;
+      --container:1380px;
+      --mx:50%;
+      --my:35%;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -36,9 +38,8 @@
       font-family:"Inter",sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at 50% 10%, rgba(245,176,33,.12), transparent 22%),
-        radial-gradient(circle at 15% 80%, rgba(96,165,250,.08), transparent 26%),
-        linear-gradient(180deg,#060608 0%, #030304 100%);
+        radial-gradient(circle at 50% 0%, rgba(245,176,33,.08), transparent 22%),
+        linear-gradient(180deg, #050506 0%, #020203 100%);
       overflow-x:hidden;
     }
 
@@ -49,44 +50,190 @@
       z-index:0;
       pointer-events:none;
       background:
-        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-      background-size:44px 44px;
-      mask-image:radial-gradient(circle at center, black 34%, transparent 84%);
-      opacity:.36;
-      animation:gridDrift 18s linear infinite;
+        linear-gradient(rgba(255,255,255,.014) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px);
+      background-size:52px 52px;
+      mask-image:radial-gradient(circle at center, black 38%, transparent 84%);
+      opacity:.34;
+      animation:gridMove 20s linear infinite;
     }
 
-    body::after{
-      content:"";
+    .spotlight{
       position:fixed;
-      inset:-16%;
-      z-index:0;
+      inset:0;
+      z-index:1;
       pointer-events:none;
       background:
-        radial-gradient(circle at 50% 16%, rgba(245,176,33,.14), transparent 18%),
-        radial-gradient(circle at 74% 12%, rgba(96,165,250,.08), transparent 16%),
-        radial-gradient(circle at 24% 72%, rgba(245,176,33,.08), transparent 20%);
-      filter:blur(56px);
-      opacity:.95;
-      animation:aurora 11s ease-in-out infinite alternate;
+        radial-gradient(circle 240px at var(--mx) var(--my), rgba(255,220,120,.12), transparent 62%),
+        radial-gradient(circle 540px at var(--mx) var(--my), rgba(245,176,33,.08), transparent 70%);
+      mix-blend-mode:screen;
+      transition:background .08s linear;
+    }
+
+    .flash-overlay{
+      position:fixed;
+      inset:0;
+      z-index:130;
+      pointer-events:none;
+      opacity:0;
+      background:
+        radial-gradient(circle at 50% 24%, rgba(255,245,220,.92), rgba(255,210,95,.24) 22%, transparent 54%);
+      mix-blend-mode:screen;
+    }
+
+    .flash-overlay.flash{
+      animation:lightFlash .48s ease-out;
+    }
+
+    .storm-layer,
+    .rain-layer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+
+    .storm-layer{z-index:125}
+    .rain-layer{z-index:118; opacity:0; transition:opacity .35s ease}
+    .rain-layer.active{opacity:1}
+
+    .bolt{
+      position:absolute;
+      top:-10%;
+      width:2px;
+      height:58vh;
+      opacity:0;
+      transform-origin:top center;
+      background:linear-gradient(180deg,
+        rgba(255,247,220,0),
+        rgba(255,247,220,.96) 12%,
+        rgba(255,213,106,.96) 45%,
+        rgba(255,186,56,.72) 78%,
+        rgba(255,186,56,0)
+      );
+      filter:drop-shadow(0 0 8px rgba(255,224,145,.86)) drop-shadow(0 0 26px rgba(245,176,33,.62));
+      clip-path:polygon(50% 0%, 68% 8%, 45% 18%, 62% 28%, 40% 40%, 58% 53%, 34% 68%, 52% 82%, 44% 100%, 18% 84%, 34% 69%, 14% 53%, 32% 39%, 18% 25%, 42% 12%);
+    }
+
+    .rain-drop{
+      position:absolute;
+      bottom:100%;
+      width:2px;
+      height:90px;
+      background:linear-gradient(180deg, rgba(255,230,170,0), rgba(255,220,145,.82));
+      border-radius:999px;
+      opacity:.72;
+      animation:rainFall linear forwards;
+      filter:drop-shadow(0 0 7px rgba(255,210,100,.24));
+    }
+
+    .rain-drop::after{
+      content:"";
+      position:absolute;
+      bottom:-3px;
+      left:50%;
+      transform:translateX(-50%);
+      width:10px;
+      height:2px;
+      border-radius:999px;
+      background:rgba(255,220,145,.38);
+      opacity:.7;
+    }
+
+    .loader{
+      position:fixed;
+      inset:0;
+      z-index:200;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:18px;
+      background:
+        radial-gradient(circle at center, rgba(245,176,33,.08), transparent 26%),
+        linear-gradient(180deg, #050506 0%, #020203 100%);
+      transition:opacity .8s ease, visibility .8s ease;
+    }
+
+    .loader.hide{
+      opacity:0;
+      visibility:hidden;
+    }
+
+    .loader-logo{
+      width:94px;
+      height:94px;
+      border-radius:28px;
+      display:grid;
+      place-items:center;
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(255,215,110,.18);
+      background:linear-gradient(135deg, rgba(255,215,110,.14), rgba(245,176,33,.03));
+      box-shadow:
+        0 0 40px rgba(245,176,33,.12),
+        inset 0 1px 0 rgba(255,255,255,.08);
+      animation:loaderRise 1.2s ease both;
+    }
+
+    .loader-logo::before{
+      content:"";
+      position:absolute;
+      inset:-35%;
+      background:conic-gradient(from 0deg, transparent, rgba(255,215,110,.28), transparent 45%, transparent);
+      animation:spinSlow 4.5s linear infinite;
+    }
+
+    .loader-logo svg{
+      width:46px;
+      height:46px;
+      color:var(--gold-2);
+      position:relative;
+      z-index:1;
+      animation:logoGlow 2s ease-in-out infinite alternate;
+    }
+
+    .loader-title{
+      font-size:14px;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      color:var(--muted);
+      animation:fadeUp 1.1s ease both;
+    }
+
+    .loader-bar{
+      width:180px;
+      height:4px;
+      border-radius:999px;
+      background:rgba(255,255,255,.05);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.04);
+    }
+
+    .loader-bar span{
+      display:block;
+      width:100%;
+      height:100%;
+      background:linear-gradient(90deg, transparent, var(--gold), var(--gold-2), transparent);
+      transform:translateX(-100%);
+      animation:loaderBar 2.2s ease forwards;
+    }
+
+    .page{
+      position:relative;
+      z-index:2;
+      width:min(var(--container), calc(100% - 28px));
+      margin:0 auto;
+      padding:18px 0 60px;
     }
 
     a{color:inherit;text-decoration:none}
     .skip{position:absolute;left:-9999px}
     .skip:focus{left:20px;top:20px;background:#fff;color:#000;padding:10px 14px;border-radius:12px;z-index:1000}
 
-    .page{
-      position:relative;
-      z-index:1;
-      width:min(var(--container), calc(100% - 28px));
-      margin:0 auto;
-      padding:18px 0 56px;
-    }
-
     .glass{
       border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(14,14,20,.84), rgba(10,10,14,.92));
+      background:linear-gradient(180deg, rgba(13,13,18,.84), rgba(8,8,11,.94));
       box-shadow:var(--shadow);
       backdrop-filter:blur(16px);
     }
@@ -94,7 +241,7 @@
     .nav{
       position:sticky;
       top:12px;
-      z-index:70;
+      z-index:80;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -102,8 +249,8 @@
       padding:12px 18px;
       border:1px solid var(--line);
       border-radius:999px;
-      background:rgba(8,8,11,.64);
-      backdrop-filter:blur(16px);
+      background:rgba(8,8,11,.62);
+      backdrop-filter:blur(18px);
       box-shadow:0 10px 30px rgba(0,0,0,.28);
       animation:slideDown .8s ease both;
     }
@@ -115,47 +262,44 @@
       min-width:0;
     }
 
-    .brand-logo{
-      width:42px;
-      height:42px;
-      border-radius:14px;
+    .logo-wrap{
+      width:44px;
+      height:44px;
+      border-radius:15px;
       display:grid;
       place-items:center;
-      flex-shrink:0;
       position:relative;
-      background:linear-gradient(135deg, rgba(255,215,110,.22), rgba(245,176,33,.08));
-      border:1px solid rgba(255,215,110,.22);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.08),
-        0 0 0 1px rgba(255,255,255,.03),
-        0 0 30px rgba(245,176,33,.20);
       overflow:hidden;
+      flex-shrink:0;
+      background:linear-gradient(135deg, rgba(255,215,110,.16), rgba(245,176,33,.04));
+      border:1px solid rgba(255,215,110,.18);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 0 24px rgba(245,176,33,.14);
     }
 
-    .brand-logo::before{
+    .logo-wrap::before{
       content:"";
       position:absolute;
       inset:-40%;
-      background:conic-gradient(from 0deg, transparent, rgba(255,215,110,.26), transparent 40%, transparent);
+      background:conic-gradient(from 0deg, transparent, rgba(255,215,110,.24), transparent 42%, transparent);
       animation:spinSlow 8s linear infinite;
     }
 
-    .brand-logo svg{
+    .logo-wrap svg{
+      width:26px;
+      height:26px;
+      color:var(--gold-2);
       position:relative;
       z-index:1;
-      width:24px;
-      height:24px;
-      color:var(--gold-2);
     }
 
-    .brand-meta{min-width:0}
     .brand-title{
       font-size:15px;
       font-weight:900;
-      letter-spacing:.10em;
-      text-transform:uppercase;
       line-height:1;
+      letter-spacing:.11em;
+      text-transform:uppercase;
     }
+
     .brand-sub{
       margin-top:4px;
       font-size:12px;
@@ -170,10 +314,12 @@
       color:var(--muted);
       font-size:14px;
     }
+
     .nav-links a{
       position:relative;
       transition:color .2s ease;
     }
+
     .nav-links a:hover{color:var(--text)}
     .nav-links a::after{
       content:"";
@@ -205,11 +351,13 @@
       border:1px solid transparent;
       cursor:pointer;
       white-space:nowrap;
-      transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
       position:relative;
       overflow:hidden;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
     }
+
     .btn:hover{transform:translateY(-2px)}
+
     .btn::before{
       content:"";
       position:absolute;
@@ -218,15 +366,17 @@
       transform:translateX(-130%);
       transition:transform .65s ease;
     }
+
     .btn:hover::before{transform:translateX(130%)}
 
     .btn-primary{
-      color:#251700;
-      background:linear-gradient(135deg,#ffe89a,var(--gold),#df9608);
-      box-shadow:0 18px 42px rgba(245,176,33,.28), inset 0 1px 0 rgba(255,255,255,.36);
+      color:#241700;
+      background:linear-gradient(135deg, #ffe79e, var(--gold), #de9308);
+      box-shadow:0 18px 48px rgba(245,176,33,.28), inset 0 1px 0 rgba(255,255,255,.34);
     }
+
     .btn-primary:hover{
-      box-shadow:0 24px 56px rgba(245,176,33,.38), inset 0 1px 0 rgba(255,255,255,.42);
+      box-shadow:0 24px 60px rgba(245,176,33,.38), inset 0 1px 0 rgba(255,255,255,.4);
     }
 
     .btn-secondary{
@@ -234,77 +384,48 @@
       background:rgba(10,10,14,.56);
       border-color:var(--line-2);
     }
+
     .btn-secondary:hover{background:rgba(245,176,33,.09)}
 
     .hero{
       min-height:calc(100vh - 96px);
       display:grid;
-      grid-template-columns:1.36fr .94fr;
+      grid-template-columns:1.15fr .95fr;
       gap:24px;
       align-items:center;
-      padding:24px 0 10px;
+      padding:24px 0 14px;
     }
 
     .hero-main{
       position:relative;
       overflow:hidden;
-      border-radius:38px;
-      padding:40px;
-      min-height:580px;
+      border-radius:40px;
+      min-height:620px;
+      padding:42px;
       display:flex;
       flex-direction:column;
-      justify-content:center;
+      justify-content:space-between;
       isolation:isolate;
-      animation:fadeUp .9s ease both;
+      animation:fadeUp .95s ease both;
     }
 
     .hero-main::before{
       content:"";
       position:absolute;
-      inset:-15%;
-      background:
-        radial-gradient(circle at 44% 22%, rgba(245,176,33,.24), transparent 22%),
-        radial-gradient(circle at 80% 18%, rgba(96,165,250,.10), transparent 16%),
-        radial-gradient(circle at 58% 64%, rgba(245,176,33,.10), transparent 22%);
-      filter:blur(12px);
-      animation:aurora 10s ease-in-out infinite alternate;
+      inset:-16%;
       z-index:-2;
+      background:
+        radial-gradient(circle at 22% 22%, rgba(245,176,33,.15), transparent 18%),
+        radial-gradient(circle at 76% 18%, rgba(255,215,110,.10), transparent 16%),
+        radial-gradient(circle at 54% 60%, rgba(245,176,33,.08), transparent 22%);
+      filter:blur(10px);
+      animation:aurora 12s ease-in-out infinite alternate;
     }
 
-    .hero-main::after{
-      content:"";
-      position:absolute;
-      width:520px;
-      height:520px;
-      right:-140px;
-      top:50%;
-      transform:translateY(-50%);
-      border-radius:50%;
-      border:1px solid rgba(255,215,110,.08);
-      box-shadow:
-        0 0 0 40px rgba(255,215,110,.03),
-        0 0 0 90px rgba(255,215,110,.02),
-        inset 0 0 80px rgba(255,215,110,.04);
-      animation:ringPulse 8s ease-in-out infinite;
-      z-index:-1;
-    }
-
-    .particles{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      overflow:hidden;
-      z-index:-1;
-    }
-
-    .particle{
-      position:absolute;
-      width:4px;
-      height:4px;
-      border-radius:999px;
-      background:rgba(255,222,153,.85);
-      box-shadow:0 0 12px rgba(255,222,153,.55);
-      animation:floatParticle linear infinite;
+    .hero-top{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
     }
 
     .eyebrow{
@@ -314,211 +435,153 @@
       width:max-content;
       padding:8px 14px;
       border-radius:999px;
-      background:rgba(12,57,30,.38);
-      border:1px solid rgba(34,197,94,.30);
+      background:rgba(20,50,28,.34);
+      border:1px solid rgba(34,197,94,.3);
       color:#d6ffe3;
       font-size:12px;
-      letter-spacing:.16em;
       text-transform:uppercase;
+      letter-spacing:.16em;
       animation:floatY 4s ease-in-out infinite;
     }
+
     .eyebrow-dot{
       width:8px;height:8px;border-radius:999px;background:var(--green);
       box-shadow:0 0 0 6px rgba(34,197,94,.12);
     }
 
-    .hero-logo-row{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin-top:18px;
-      margin-bottom:6px;
-    }
-
-    .hero-logo-badge{
-      width:54px;
-      height:54px;
-      border-radius:18px;
-      display:grid;
-      place-items:center;
-      background:linear-gradient(135deg, rgba(255,215,110,.18), rgba(245,176,33,.05));
-      border:1px solid rgba(255,215,110,.18);
-      box-shadow:0 0 30px rgba(245,176,33,.12);
-      flex-shrink:0;
-    }
-
-    .hero-logo-badge svg{
-      width:30px;height:30px;color:var(--gold-2);
-    }
-
-    .hero-kicker{
-      font-size:13px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-
     .hero-title{
-      max-width:10.5ch;
-      font-size:clamp(3.5rem, 7.8vw, 7rem);
-      line-height:.91;
-      letter-spacing:-.07em;
+      max-width:10.3ch;
+      font-size:clamp(3.6rem, 8vw, 7.4rem);
+      line-height:.9;
+      letter-spacing:-.08em;
       font-weight:900;
       text-wrap:balance;
     }
+
     .hero-title .accent{
       color:var(--gold);
-      text-shadow:0 0 34px rgba(245,176,33,.16);
+      text-shadow:0 0 36px rgba(245,176,33,.18);
     }
 
     .hero-text{
-      margin-top:22px;
-      max-width:58ch;
-      font-size:1.08rem;
-      color:var(--muted);
+      max-width:56ch;
+      font-size:1.07rem;
       line-height:1.85;
-      animation:fadeUp 1.1s ease both;
+      color:var(--muted);
     }
 
     .hero-actions{
       display:flex;
       flex-wrap:wrap;
       gap:14px;
-      margin-top:30px;
-      animation:fadeUp 1.24s ease both;
-    }
-
-    .hero-trust{
-      margin-top:18px;
-      display:flex;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:10px;
-      color:var(--muted);
-      font-size:13px;
-    }
-    .hero-badge{
-      padding:5px 10px;
-      border-radius:999px;
-      background:rgba(37,99,235,.12);
-      border:1px solid rgba(96,165,250,.20);
-      color:#dce8ff;
-      font-size:12px;
-    }
-
-    .hero-side{
-      border-radius:30px;
-      padding:24px;
-      animation:fadeUp 1.05s ease both;
-    }
-
-    .panel-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
-    .panel-title{font-size:15px;font-weight:800}
-    .panel-badge{
-      font-size:12px;
-      color:#dce7ff;
-      padding:5px 10px;
-      border-radius:999px;
-      background:rgba(37,99,235,.12);
-      border:1px solid rgba(96,165,250,.18);
-    }
-
-    .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .mini-metric{
-      border-radius:18px;
-      padding:16px;
-      background:rgba(15,23,42,.56);
-      border:1px solid rgba(255,255,255,.06);
-      transition:transform .18s ease,border-color .18s ease, box-shadow .18s ease;
-    }
-    .mini-metric:hover{
-      transform:translateY(-2px);
-      border-color:rgba(245,176,33,.2);
-      box-shadow:0 14px 30px rgba(0,0,0,.2);
-    }
-    .mini-label{font-size:12px;color:var(--muted);margin-bottom:8px}
-    .mini-value{display:flex;align-items:baseline;gap:8px;font-size:30px;font-weight:900;line-height:1}
-    .mini-chip{
-      font-size:11px;
-      padding:4px 8px;
-      border-radius:999px;
-      background:rgba(34,197,94,.14);
-      border:1px solid rgba(34,197,94,.22);
-      color:#d5ffe0;
-    }
-    .side-footer{
-      margin-top:14px;
-      padding-top:14px;
-      border-top:1px solid rgba(255,255,255,.06);
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .stats-strip{
       margin-top:10px;
-      border-radius:28px;
-      padding:18px 10px;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:8px;
     }
 
-    .stat{
-      text-align:center;
-      padding:16px 8px;
-      position:relative;
+    .hero-bottom{
+      margin-top:24px;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:16px;
+      align-items:end;
     }
-    .stat:not(:last-child)::after{
+
+    .hero-brand-card,
+    .hero-stat-card{
+      border-radius:28px;
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-brand-card{
+      background:linear-gradient(180deg, rgba(18,18,24,.88), rgba(12,12,16,.95));
+      border:1px solid rgba(255,212,106,.12);
+    }
+
+    .hero-brand-card::before{
       content:"";
       position:absolute;
-      right:0;
-      top:18%;
-      width:1px;
-      height:64%;
-      background:linear-gradient(180deg,transparent,rgba(255,255,255,.1),transparent);
+      inset:auto -10% -45% auto;
+      width:240px;height:240px;border-radius:50%;
+      background:radial-gradient(circle, rgba(245,176,33,.18), transparent 62%);
+      filter:blur(8px);
     }
-    .stat-icon{
-      font-size:20px;
-      color:var(--gold);
-      margin-bottom:10px;
-      animation:floatY 4s ease-in-out infinite;
+
+    .hero-stat-card{
+      background:linear-gradient(180deg, rgba(15,18,28,.9), rgba(10,12,18,.96));
+      border:1px solid rgba(255,255,255,.06);
     }
-    .stat-value{
-      font-size:clamp(1.8rem,3vw,2.6rem);
-      font-weight:900;
-      line-height:1;
-      font-variant-numeric:tabular-nums;
+
+    .brand-card-top{
+      display:flex;align-items:center;gap:14px;
     }
-    .stat-label{
-      margin-top:8px;
+
+    .hero-logo{
+      width:58px;height:58px;border-radius:18px;display:grid;place-items:center;flex-shrink:0;
+      background:linear-gradient(135deg, rgba(255,215,110,.18), rgba(245,176,33,.05));
+      border:1px solid rgba(255,215,110,.18);
+      box-shadow:0 0 30px rgba(245,176,33,.12);
+    }
+
+    .hero-logo svg{width:32px;height:32px;color:var(--gold-2)}
+    .brand-card-title{font-size:17px;font-weight:800}
+
+    .small-label{
       font-size:12px;
       color:var(--muted);
       text-transform:uppercase;
       letter-spacing:.16em;
+      margin-bottom:12px;
     }
 
-    .content{
-      margin-top:30px;
+    .brand-card-text{
+      margin-top:12px;
+      font-size:14px;
+      line-height:1.75;
+      color:var(--muted);
+      max-width:42ch;
+    }
+
+    .stats-mini{
       display:grid;
-      grid-template-columns:1.5fr .95fr;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .stat-mini{
+      padding:14px;
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.05);
+    }
+
+    .stat-mini-value{
+      font-size:28px;
+      font-weight:900;
+      line-height:1;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .stat-mini-text{
+      margin-top:8px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .section-grid{
+      margin-top:28px;
+      display:grid;
+      grid-template-columns:1.45fr .95fr;
       gap:24px;
     }
+
     .stack{display:grid;gap:24px}
 
     .card{
       border-radius:30px;
       padding:24px;
     }
+
     .card-header{
       display:flex;
       align-items:center;
@@ -526,6 +589,7 @@
       gap:12px;
       margin-bottom:18px;
     }
+
     .card-title{
       font-size:14px;
       font-weight:800;
@@ -533,39 +597,58 @@
       text-transform:uppercase;
       color:var(--muted);
     }
-    .card-pill{
+
+    .pill{
       font-size:12px;
-      color:#dce6f8;
+      color:#dce7ff;
       padding:5px 10px;
       border-radius:999px;
-      background:rgba(37,99,235,.12);
-      border:1px solid rgba(96,165,250,.18);
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
     }
 
-    .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+
     .feature{
       border-radius:22px;
       padding:18px;
-      background:linear-gradient(180deg, rgba(12,19,32,.82), rgba(11,15,24,.95));
+      background:linear-gradient(180deg, rgba(12,16,24,.82), rgba(8,11,16,.96));
       border:1px solid rgba(255,255,255,.06);
-      transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
     }
+
     .feature:hover{
-      transform:translateY(-3px);
-      border-color:rgba(245,176,33,.22);
+      transform:translateY(-4px);
+      border-color:rgba(245,176,33,.2);
       box-shadow:0 14px 34px rgba(0,0,0,.24);
     }
+
     .feature-kicker{
       font-size:11px;
-      color:var(--muted-2);
-      text-transform:uppercase;
       letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--muted-2);
       margin-bottom:8px;
     }
-    .feature h3{font-size:21px;line-height:1.08;margin-bottom:8px}
-    .feature p{font-size:14px;color:var(--muted);line-height:1.72}
+
+    .feature h3{
+      font-size:21px;
+      line-height:1.08;
+      margin-bottom:8px;
+    }
+
+    .feature p{
+      font-size:14px;
+      line-height:1.74;
+      color:var(--muted);
+    }
 
     .session-list{display:grid;gap:10px}
+
     .session-item{
       display:flex;
       align-items:center;
@@ -573,34 +656,43 @@
       gap:12px;
       padding:14px;
       border-radius:18px;
-      background:rgba(13,20,33,.76);
+      background:rgba(13,18,28,.78);
       border:1px solid rgba(255,255,255,.06);
       transition:transform .16s ease,border-color .16s ease;
     }
+
     .session-item:hover{
       transform:translateX(2px);
-      border-color:rgba(245,176,33,.2);
+      border-color:rgba(245,176,33,.18);
     }
-    .session-left{display:flex;align-items:center;gap:10px;min-width:0}
+
+    .session-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
+
     .status-dot{
       width:10px;height:10px;border-radius:999px;background:var(--green);
-      box-shadow:0 0 0 5px rgba(34,197,94,.12);
-      flex-shrink:0;
+      box-shadow:0 0 0 5px rgba(34,197,94,.12);flex-shrink:0;
     }
+
     .session-name{
       font-size:14px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
     }
+
     .session-pill{
       flex-shrink:0;
       font-size:12px;
+      color:#d9ffe3;
       padding:5px 10px;
       border-radius:999px;
       background:rgba(34,197,94,.14);
       border:1px solid rgba(34,197,94,.22);
-      color:#d5ffe0;
     }
 
     .about-copy{
@@ -609,30 +701,39 @@
       color:var(--muted);
       max-width:68ch;
     }
+
     .about-grid{
       margin-top:18px;
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:14px;
     }
+
     .about-box{
       border-radius:22px;
       padding:18px;
-      background:rgba(13,20,33,.72);
+      background:rgba(13,18,28,.74);
       border:1px solid rgba(255,255,255,.06);
     }
+
     .about-box h4{font-size:16px;margin-bottom:8px}
-    .about-box p{font-size:14px;color:var(--muted);line-height:1.72}
+    .about-box p{font-size:14px;color:var(--muted);line-height:1.74}
 
     .cta-panel{display:grid;gap:12px}
-    .cta-note{margin-top:8px;font-size:13px;color:var(--muted)}
+    .cta-note{margin-top:10px;font-size:13px;color:var(--muted)}
+
+    .sound-tip{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--gold-2);
+    }
 
     .footer-bar{
       margin-top:26px;
       border-radius:999px;
       padding:14px 18px;
-      border:1px solid rgba(59,130,246,.22);
-      background:linear-gradient(90deg, rgba(18,24,38,.95), rgba(12,16,26,.95));
+      border:1px solid rgba(255,212,106,.12);
+      background:linear-gradient(90deg, rgba(16,16,20,.95), rgba(10,10,14,.95));
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -640,6 +741,7 @@
       color:var(--muted);
       font-size:13px;
     }
+
     .footer-bar strong{color:var(--text)}
 
     .footer{
@@ -659,86 +761,173 @@
       transform:translateY(26px);
       transition:opacity .75s ease, transform .75s ease;
     }
-    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
 
     @keyframes fadeUp{
-      from{opacity:0;transform:translateY(26px)}
+      from{opacity:0;transform:translateY(28px)}
       to{opacity:1;transform:translateY(0)}
     }
+
     @keyframes slideDown{
       from{opacity:0;transform:translateY(-18px)}
       to{opacity:1;transform:translateY(0)}
     }
+
     @keyframes aurora{
       0%{transform:translate3d(-2%,0,0) scale(1)}
-      50%{transform:translate3d(2%,-1%,0) scale(1.04)}
-      100%{transform:translate3d(0,2%,0) scale(1.02)}
+      50%{transform:translate3d(2%,-1%,0) scale(1.03)}
+      100%{transform:translate3d(0,2%,0) scale(1.01)}
     }
+
     @keyframes floatY{
       0%,100%{transform:translateY(0)}
       50%{transform:translateY(-5px)}
     }
-    @keyframes gridDrift{
-      from{transform:translateY(0)}
-      to{transform:translateY(44px)}
-    }
-    @keyframes floatParticle{
-      from{transform:translateY(30px) scale(.8);opacity:0}
-      15%{opacity:.9}
-      100%{transform:translateY(-420px) scale(1.1);opacity:0}
-    }
+
     @keyframes spinSlow{
       from{transform:rotate(0deg)}
       to{transform:rotate(360deg)}
     }
-    @keyframes ringPulse{
-      0%,100%{transform:translateY(-50%) scale(1);opacity:.95}
-      50%{transform:translateY(-50%) scale(1.04);opacity:1}
+
+    @keyframes gridMove{
+      from{transform:translateY(0)}
+      to{transform:translateY(52px)}
+    }
+
+    @keyframes lightFlash{
+      0%{opacity:0}
+      15%{opacity:.95}
+      30%{opacity:.25}
+      46%{opacity:.82}
+      100%{opacity:0}
+    }
+
+    @keyframes rainFall{
+      from{transform:translateY(0)}
+      to{transform:translateY(calc(100vh + 120px))}
+    }
+
+    @keyframes loaderRise{
+      from{opacity:0;transform:translateY(18px) scale(.94)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    @keyframes loaderBar{
+      from{transform:translateX(-100%)}
+      to{transform:translateX(100%)}
+    }
+
+    @keyframes logoGlow{
+      from{filter:drop-shadow(0 0 4px rgba(245,176,33,.18))}
+      to{filter:drop-shadow(0 0 18px rgba(245,176,33,.44))}
     }
 
     @media (max-width:1080px){
-      .hero,.content{grid-template-columns:1fr}
+      .hero,
+      .section-grid{
+        grid-template-columns:1fr;
+      }
+
       .hero{min-height:auto}
-      .hero-main{min-height:500px}
+      .hero-main{min-height:540px}
     }
 
     @media (max-width:760px){
-      .page{width:min(calc(100% - 18px),100%);padding-top:12px}
-      .nav{border-radius:24px;padding:14px}
+      .page{
+        width:min(calc(100% - 18px),100%);
+        padding-top:12px;
+      }
+
+      .nav{
+        border-radius:24px;
+        padding:14px;
+      }
+
       .nav-links{display:none}
       .brand-sub{white-space:normal}
-      .hero-main,.hero-side,.card,.stats-strip{border-radius:22px}
-      .hero-main{padding:24px 20px;min-height:80vh}
-      .hero-title{max-width:none;font-size:clamp(2.8rem,12vw,4.5rem)}
-      .hero-actions{flex-direction:column;align-items:stretch}
+
+      .hero-main,
+      .card{
+        border-radius:24px;
+      }
+
+      .hero-main{
+        min-height:82vh;
+        padding:24px 20px;
+      }
+
+      .hero-title{
+        max-width:none;
+        font-size:clamp(2.9rem, 12vw, 4.8rem);
+      }
+
+      .hero-actions{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .hero-bottom,
+      .stats-mini,
+      .feature-grid,
+      .about-grid{
+        grid-template-columns:1fr;
+      }
+
       .btn{width:100%}
-      .mini-grid,.feature-grid,.about-grid,.stats-strip{grid-template-columns:1fr}
-      .stat:not(:last-child)::after{display:none}
-      .footer-bar,.footer,.side-footer{flex-direction:column;align-items:flex-start}
+      .footer-bar,.footer{flex-direction:column;align-items:flex-start}
     }
 
     @media (prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-      .reveal{opacity:1;transform:none}
+      *,*::before,*::after{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+      }
+
+      .reveal{
+        opacity:1;
+        transform:none;
+      }
     }
   </style>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
+  <div class="loader" id="loader">
+    <div class="loader-logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <rect x="4" y="5" width="16" height="4" rx="1.6" stroke="currentColor" stroke-width="1.8"></rect>
+        <rect x="4" y="11" width="16" height="8" rx="1.8" stroke="currentColor" stroke-width="1.8"></rect>
+        <path d="M8 8.5h3M8 14.5h5M8 17.2h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <div class="loader-title">The Kit Room</div>
+    <div class="loader-bar"><span></span></div>
+  </div>
+
+  <div class="spotlight" id="spotlight"></div>
+  <div class="flash-overlay" id="flashOverlay"></div>
+  <div class="storm-layer" id="stormLayer"></div>
+  <div class="rain-layer" id="rainLayer"></div>
+
   <div class="page">
     <header class="nav">
       <div class="brand">
-        <div class="brand-logo" aria-hidden="true">
+        <div class="logo-wrap" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none">
             <rect x="4" y="5" width="16" height="4" rx="1.6" stroke="currentColor" stroke-width="1.8"></rect>
             <rect x="4" y="11" width="16" height="8" rx="1.8" stroke="currentColor" stroke-width="1.8"></rect>
             <path d="M8 8.5h3M8 14.5h5M8 17.2h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
           </svg>
         </div>
-        <div class="brand-meta">
+        <div>
           <div class="brand-title">The Kit Room</div>
-          <div class="brand-sub">Premium game & app hosting for serious creators</div>
+          <div class="brand-sub">Storm edition · black and gold</div>
         </div>
       </div>
 
@@ -758,161 +947,71 @@
     <main id="main">
       <section class="hero" id="home">
         <div class="hero-main glass">
-          <div class="particles" id="particles"></div>
-
-          <div class="eyebrow">
-            <span class="eyebrow-dot"></span>
-            <span>Systems online</span>
-          </div>
-
-          <div class="hero-logo-row">
-            <div class="hero-logo-badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <rect x="4" y="5" width="16" height="4" rx="1.6" stroke="currentColor" stroke-width="1.8"></rect>
-                <rect x="4" y="11" width="16" height="8" rx="1.8" stroke="currentColor" stroke-width="1.8"></rect>
-                <path d="M8 8.5h3M8 14.5h5M8 17.2h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
-              </svg>
-            </div>
-            <div class="hero-kicker">The Kit Room / premium infrastructure</div>
-          </div>
-
-          <h1 class="hero-title">
-            Precision Hosting For <span class="accent">Serious Creators.</span>
-          </h1>
-
-          <p class="hero-text">
-            Fast deployments, high-uptime infrastructure, instant billing access, and a control panel designed to feel elite from the first click. The Kit Room is made to stop people, build trust quickly, and make the button impossible to ignore.
-          </p>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="https://billing.thekitroom.net/login" target="_blank" rel="noopener noreferrer">
-              Start now — go to billing <span>→</span>
-            </a>
-            <a class="btn btn-secondary" href="https://panel.thekitroom.net/" target="_blank" rel="noopener noreferrer">
-              Open control panel
-            </a>
-          </div>
-
-          <div class="hero-trust">
-            <span class="hero-badge">Low latency routes</span>
-            <span>Premium first impression. Cleaner customer journey. Stronger conversion feel.</span>
-          </div>
-        </div>
-
-        <aside class="hero-side glass reveal" id="overview">
-          <div class="panel-head">
-            <div class="panel-title">Live network snapshot</div>
-            <div class="panel-badge">Premium view</div>
-          </div>
-
-          <div class="mini-grid">
-            <div class="mini-metric">
-              <div class="mini-label">Online servers</div>
-              <div class="mini-value">
-                <span class="count" data-target="42">0</span>
-                <span class="mini-chip">Healthy</span>
-              </div>
+          <div class="hero-top">
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              <span>Systems online</span>
             </div>
 
-            <div class="mini-metric">
-              <div class="mini-label">Average latency</div>
-              <div class="mini-value">
-                <span class="count" data-target="18">0</span>
-                <span style="font-size:14px;color:var(--muted)">ms</span>
-              </div>
-            </div>
-          </div>
+            <h1 class="hero-title">
+              Hosting That Hits Like <span class="accent">Thunder.</span>
+            </h1>
 
-          <div class="side-footer">
-            <span>Active locations: Frankfurt, London, Singapore</span>
-            <span>99.99% sample uptime</span>
-          </div>
-        </aside>
-      </section>
-
-      <section class="stats-strip glass reveal" aria-label="Key stats">
-        <div class="stat">
-          <div class="stat-icon">▣</div>
-          <div class="stat-value"><span class="count" data-target="42">0</span></div>
-          <div class="stat-label">Online servers</div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">⌁</div>
-          <div class="stat-value"><span class="count" data-target="18">0</span> ms</div>
-          <div class="stat-label">Average latency</div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">◉</div>
-          <div class="stat-value"><span class="count" data-target="3">0</span></div>
-          <div class="stat-label">Active locations</div>
-        </div>
-        <div class="stat">
-          <div class="stat-icon">↗</div>
-          <div class="stat-value">99.99%</div>
-          <div class="stat-label">Sample uptime</div>
-        </div>
-      </section>
-
-      <section class="content">
-        <div class="stack">
-          <article class="card glass reveal" id="features">
-            <div class="card-header">
-              <div class="card-title">Built for game hosting</div>
-              <div class="card-pill">Feature set</div>
-            </div>
-
-            <div class="feature-grid">
-              <div class="feature">
-                <div class="feature-kicker">Deploy</div>
-                <h3>Fast deploy pipelines</h3>
-                <p>Bring new servers online in minutes with a polished path from landing page to billing to panel.</p>
-              </div>
-              <div class="feature">
-                <div class="feature-kicker">Protect</div>
-                <h3>Layered DDoS protection</h3>
-                <p>Traffic is filtered before it reaches your stack, making the platform feel stable and serious under pressure.</p>
-              </div>
-              <div class="feature">
-                <div class="feature-kicker">Control</div>
-                <h3>Instant panel access</h3>
-                <p>Give users a direct route into the panel without turning the experience into a generic utility page.</p>
-              </div>
-              <div class="feature">
-                <div class="feature-kicker">Support</div>
-                <h3>Operators on standby</h3>
-                <p>Strong visual trust, premium hierarchy, and polished motion make the service feel managed and dependable.</p>
-              </div>
-            </div>
-          </article>
-
-          <article class="card glass reveal" id="about">
-            <div class="card-header">
-              <div class="card-title">Why The Kit Room</div>
-              <div class="card-pill">For studios & creators</div>
-            </div>
-
-            <p class="about-copy">
-              The Kit Room should feel like a premium digital front door, not a plain utility page. The page is designed to create the kind of visual impact that makes visitors pause, trust the platform, and feel naturally pulled toward the call to action.
+            <p class="hero-text">
+              A cinematic black-and-gold front page with real rain, lightning, thunder, logo reveal, and a golden spotlight that follows the mouse. Rain starts after 20 seconds, runs for 5 seconds, then disappears.
             </p>
 
-            <div class="about-grid">
-              <div class="about-box">
-                <h4>For creators</h4>
-                <p>Launch private servers, communities, and experiences with a landing page that already feels premium before the login happens.</p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="https://billing.thekitroom.net/login" target="_blank" rel="noopener noreferrer">
+                Start now — go to billing <span>→</span>
+              </a>
+              <a class="btn btn-secondary" href="https://panel.thekitroom.net/" target="_blank" rel="noopener noreferrer">
+                Open control panel
+              </a>
+            </div>
+          </div>
+
+          <div class="hero-bottom">
+            <div class="hero-brand-card">
+              <div class="brand-card-top">
+                <div class="hero-logo" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="4" y="5" width="16" height="4" rx="1.6" stroke="currentColor" stroke-width="1.8"></rect>
+                    <rect x="4" y="11" width="16" height="8" rx="1.8" stroke="currentColor" stroke-width="1.8"></rect>
+                    <path d="M8 8.5h3M8 14.5h5M8 17.2h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="brand-card-title">The Kit Room</div>
+                  <div class="small-label" style="margin:6px 0 0">Premium game & app hosting</div>
+                </div>
               </div>
-              <div class="about-box">
-                <h4>For teams</h4>
-                <p>Use this as a polished bridge between marketing, billing, and panel access so the whole product feels connected.</p>
+              <p class="brand-card-text">
+                Strong brand, cinematic motion, and conversion-focused buttons — built to stop people and pull them toward action.
+              </p>
+            </div>
+
+            <div class="hero-stat-card" id="overview">
+              <div class="small-label">Live network snapshot</div>
+              <div class="stats-mini">
+                <div class="stat-mini">
+                  <div class="stat-mini-value"><span class="count" data-target="42">0</span></div>
+                  <div class="stat-mini-text">Online servers</div>
+                </div>
+                <div class="stat-mini">
+                  <div class="stat-mini-value"><span class="count" data-target="18">0</span>ms</div>
+                  <div class="stat-mini-text">Average latency</div>
+                </div>
               </div>
             </div>
-          </article>
+          </div>
         </div>
 
         <div class="stack">
           <article class="card glass reveal">
             <div class="card-header">
               <div class="card-title">Session overview</div>
-              <div class="card-pill">Visual snapshot</div>
+              <div class="pill">Visual snapshot</div>
             </div>
 
             <div class="session-list">
@@ -942,19 +1041,105 @@
 
           <article class="card glass reveal">
             <div class="card-header">
+              <div class="card-title">Storm settings</div>
+              <div class="pill">Interactive effects</div>
+            </div>
+
+            <div class="session-list">
+              <div class="session-item">
+                <div class="session-left">
+                  <span class="status-dot"></span>
+                  <span class="session-name">Mouse-follow golden spotlight</span>
+                </div>
+                <span class="session-pill">Active</span>
+              </div>
+              <div class="session-item">
+                <div class="session-left">
+                  <span class="status-dot"></span>
+                  <span class="session-name">Rain starts after 20 seconds</span>
+                </div>
+                <span class="session-pill">Timed</span>
+              </div>
+              <div class="session-item">
+                <div class="session-left">
+                  <span class="status-dot"></span>
+                  <span class="session-name">Rain duration</span>
+                </div>
+                <span class="session-pill">5 sec</span>
+              </div>
+            </div>
+            <p class="sound-tip">Thunder sound becomes available after your first click, tap, or key press. [web:526]</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-grid">
+        <div class="stack">
+          <article class="card glass reveal" id="features">
+            <div class="card-header">
+              <div class="card-title">Built for impact</div>
+              <div class="pill">Feature set</div>
+            </div>
+
+            <div class="feature-grid">
+              <div class="feature">
+                <div class="feature-kicker">Visual</div>
+                <h3>Luxury black & gold direction</h3>
+                <p>A dark premium layout with controlled gold highlights makes the page feel stronger and more expensive. [web:528]</p>
+              </div>
+              <div class="feature">
+                <div class="feature-kicker">Motion</div>
+                <h3>Spotlight + rain + lightning</h3>
+                <p>Layered animation creates atmosphere while still keeping the interface readable and the CTA obvious. [web:520][web:528]</p>
+              </div>
+              <div class="feature">
+                <div class="feature-kicker">Brand</div>
+                <h3>Intro logo reveal</h3>
+                <p>A short branded loader gives the site a more deliberate first impression before the page fully appears. [web:529]</p>
+              </div>
+              <div class="feature">
+                <div class="feature-kicker">Audio</div>
+                <h3>Thunder on lightning strike</h3>
+                <p>Audio is best triggered after user interaction because modern browsers restrict autoplay without engagement. [web:526]</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card glass reveal" id="about">
+            <div class="card-header">
+              <div class="card-title">Why this works</div>
+              <div class="pill">Storm edition</div>
+            </div>
+
+            <p class="about-copy">
+              This version goes beyond a normal dashboard look by treating the page like a brand experience. Cursor-based spotlighting, timed weather effects, and controlled flashes create a more memorable atmosphere while keeping the buttons visible and usable. [web:528][web:520][web:529]
+            </p>
+
+            <div class="about-grid">
+              <div class="about-box">
+                <h4>For creators</h4>
+                <p>It feels cinematic and premium before the user even reaches billing or the panel. [web:529]</p>
+              </div>
+              <div class="about-box">
+                <h4>For conversion</h4>
+                <p>High contrast and focused motion help attention stay where you want it instead of drifting everywhere. [web:528][web:529]</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="stack">
+          <article class="card glass reveal">
+            <div class="card-header">
               <div class="card-title">Ready when you are</div>
-              <div class="card-pill">Next steps</div>
+              <div class="pill">Next steps</div>
             </div>
 
             <div class="cta-panel">
-              <a class="btn btn-primary" href="https://billing.thekitroom.net/login" target="_blank" rel="noopener noreferrer">
-                Start now in billing
-              </a>
-              <a class="btn btn-secondary" href="https://panel.thekitroom.net/" target="_blank" rel="noopener noreferrer">
-                Open existing panel
-              </a>
+              <a class="btn btn-primary" href="https://billing.thekitroom.net/login" target="_blank" rel="noopener noreferrer">Start now in billing</a>
+              <a class="btn btn-secondary" href="https://panel.thekitroom.net/" target="_blank" rel="noopener noreferrer">Open existing panel</a>
             </div>
-            <p class="cta-note">Designed to make people stop, trust the brand, and press the button.</p>
+            <p class="cta-note">Click anywhere once to enable thunder sound when lightning strikes. [web:526]</p>
           </article>
         </div>
       </section>
@@ -966,12 +1151,21 @@
 
       <footer class="footer">
         <span>© <span id="year"></span> The Kit Room. All rights reserved.</span>
-        <span>Premium landing experience for dash.thekitroom.net</span>
+        <span>Storm edition · loader + spotlight + rain + thunder</span>
       </footer>
     </main>
   </div>
 
   <script>
+    const loader = document.getElementById("loader");
+    const flashOverlay = document.getElementById("flashOverlay");
+    const stormLayer = document.getElementById("stormLayer");
+    const rainLayer = document.getElementById("rainLayer");
+
+    setTimeout(() => {
+      loader.classList.add("hide");
+    }, 2300);
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -997,21 +1191,162 @@
           requestAnimationFrame(tick);
         }
       };
-      setTimeout(() => requestAnimationFrame(tick), 320);
+      setTimeout(() => requestAnimationFrame(tick), 600);
     });
 
-    const particles = document.getElementById("particles");
-    for (let i = 0; i < 20; i++) {
-      const p = document.createElement("span");
-      p.className = "particle";
-      p.style.left = Math.random() * 100 + "%";
-      p.style.bottom = (-10 - Math.random() * 60) + "px";
-      p.style.animationDuration = (8 + Math.random() * 9) + "s";
-      p.style.animationDelay = (Math.random() * 6) + "s";
-      p.style.opacity = (0.25 + Math.random() * 0.75).toFixed(2);
-      p.style.transform = "scale(" + (0.7 + Math.random() * 1.2).toFixed(2) + ")";
-      particles.appendChild(p);
+    document.addEventListener("mousemove", (e) => {
+      document.documentElement.style.setProperty("--mx", e.clientX + "px");
+      document.documentElement.style.setProperty("--my", e.clientY + "px");
+    });
+
+    document.addEventListener("touchmove", (e) => {
+      const t = e.touches[0];
+      if (!t) return;
+      document.documentElement.style.setProperty("--mx", t.clientX + "px");
+      document.documentElement.style.setProperty("--my", t.clientY + "px");
+    }, { passive: true });
+
+    let audioReady = false;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (audioReady) return;
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioReady = true;
+      } catch (e) {}
     }
+
+    ["click", "touchstart", "keydown"].forEach(evt => {
+      window.addEventListener(evt, initAudio, { once: true });
+    });
+
+    function playThunder() {
+      if (!audioReady || !audioCtx) return;
+      const now = audioCtx.currentTime;
+
+      const master = audioCtx.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(0.15, now + 0.08);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + 2.8);
+      master.connect(audioCtx.destination);
+
+      const bufferSize = audioCtx.sampleRate * 3;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+      }
+
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+
+      const lowpass = audioCtx.createBiquadFilter();
+      lowpass.type = "lowpass";
+      lowpass.frequency.setValueAtTime(220, now);
+      lowpass.Q.value = 0.7;
+
+      const rumble = audioCtx.createOscillator();
+      rumble.type = "sine";
+      rumble.frequency.setValueAtTime(48, now);
+
+      const rumbleGain = audioCtx.createGain();
+      rumbleGain.gain.setValueAtTime(0.0001, now);
+      rumbleGain.gain.exponentialRampToValueAtTime(0.08, now + 0.12);
+      rumbleGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.3);
+
+      noise.connect(lowpass);
+      lowpass.connect(master);
+
+      rumble.connect(rumbleGain);
+      rumbleGain.connect(master);
+
+      noise.start(now);
+      noise.stop(now + 2.8);
+      rumble.start(now);
+      rumble.stop(now + 2.4);
+    }
+
+    function flashScreen() {
+      flashOverlay.classList.remove("flash");
+      void flashOverlay.offsetWidth;
+      flashOverlay.classList.add("flash");
+    }
+
+    function createBolt() {
+      const bolt = document.createElement("div");
+      bolt.className = "bolt";
+      bolt.style.left = (12 + Math.random() * 76) + "%";
+      bolt.style.transform = "rotate(" + (-12 + Math.random() * 24) + "deg)";
+      bolt.style.height = (38 + Math.random() * 34) + "vh";
+      stormLayer.appendChild(bolt);
+
+      requestAnimationFrame(() => {
+        bolt.style.transition = "opacity 90ms ease-out";
+        bolt.style.opacity = "1";
+        flashScreen();
+        playThunder();
+
+        setTimeout(() => {
+          bolt.style.opacity = "0";
+        }, 120);
+
+        setTimeout(() => {
+          bolt.style.opacity = "1";
+          flashScreen();
+        }, 220);
+
+        setTimeout(() => {
+          bolt.style.opacity = "0";
+        }, 340);
+
+        setTimeout(() => {
+          bolt.remove();
+        }, 700);
+      });
+    }
+
+    function makeRain(amount = 90) {
+      rainLayer.innerHTML = "";
+      for (let i = 0; i < amount; i++) {
+        const drop = document.createElement("span");
+        drop.className = "rain-drop";
+        drop.style.left = Math.random() * 100 + "%";
+        drop.style.height = (55 + Math.random() * 50) + "px";
+        drop.style.opacity = (0.25 + Math.random() * 0.55).toFixed(2);
+        drop.style.animationDuration = (0.7 + Math.random() * 0.5) + "s";
+        drop.style.animationDelay = (Math.random() * 1.2) + "s";
+        rainLayer.appendChild(drop);
+      }
+    }
+
+    function startRainBurst() {
+      makeRain(window.innerWidth < 768 ? 60 : 120);
+      rainLayer.classList.add("active");
+
+      const burstStrikes = [200, 1700, 3400];
+      burstStrikes.forEach(delay => {
+        setTimeout(() => createBolt(), delay);
+      });
+
+      setTimeout(() => {
+        rainLayer.classList.remove("active");
+        setTimeout(() => {
+          rainLayer.innerHTML = "";
+        }, 450);
+      }, 5000);
+    }
+
+    setTimeout(() => {
+      startRainBurst();
+    }, 20000);
+
+    window.addEventListener("resize", () => {
+      if (rainLayer.classList.contains("active")) {
+        makeRain(window.innerWidth < 768 ? 60 : 120);
+      }
+    });
   </script>
 </body>
 </html>
