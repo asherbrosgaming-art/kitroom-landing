@@ -25,10 +25,11 @@
       --kr-shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      background: #000;
     }
 
     body {
@@ -39,9 +40,17 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    a { color: inherit; text-decoration: none; }
+
+    /* Simple fade/slide-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .page-shell {
@@ -67,47 +76,20 @@
       backdrop-filter: blur(14px);
     }
 
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .nav-left { display: flex; align-items: center; gap: 10px; }
 
     .logo-mark {
-      width: 26px;
-      height: 26px;
+      width: 26px; height: 26px;
       border-radius: 9px;
       background: radial-gradient(circle at 25% 0%, #ffe9b0 0, #f5b021 34%, #b87312 85%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 26px rgba(245, 176, 33, 0.7);
     }
+    .logo-mark span { font-size: 14px; font-weight: 800; color: #1b1305; letter-spacing: -0.06em; }
 
-    .logo-mark span {
-      font-size: 14px;
-      font-weight: 800;
-      color: #1b1305;
-      letter-spacing: -0.06em;
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-
-    .logo-title {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .logo-sub {
-      font-size: 11px;
-      color: var(--kr-text-soft);
-    }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .logo-title { font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+    .logo-sub { font-size: 11px; color: var(--kr-text-soft); }
 
     .nav-links {
       display: flex;
@@ -122,31 +104,19 @@
       position: relative;
       cursor: pointer;
     }
-
     .nav-link::after {
       content: "";
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -6px;
-      height: 2px;
-      border-radius: 999px;
+      left: 0; right: 0; bottom: -6px;
+      height: 2px; border-radius: 999px;
       background: linear-gradient(90deg, rgba(245, 176, 33, 0), rgba(245, 176, 33, 0.8), rgba(245, 176, 33, 0));
       opacity: 0;
       transform: scaleX(0.5);
       transition: opacity 0.18s ease, transform 0.18s ease;
     }
+    .nav-link:hover::after { opacity: 1; transform: scaleX(1); }
 
-    .nav-link:hover::after {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-
-    .nav-cta-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .nav-cta-group { display: flex; align-items: center; gap: 10px; }
 
     .btn {
       border-radius: 999px;
@@ -168,7 +138,6 @@
       border-color: rgba(245, 176, 33, 0.5);
       color: var(--kr-gold);
     }
-
     .btn-gold-outline:hover {
       background: rgba(245, 176, 33, 0.12);
       transform: translateY(-0.5px);
@@ -179,17 +148,15 @@
       color: #291705;
       box-shadow: 0 12px 30px rgba(245, 176, 33, 0.35);
     }
-
     .btn-gold-solid:hover {
       box-shadow: 0 16px 40px rgba(245, 176, 33, 0.45);
       transform: translateY(-1px);
       filter: brightness(1.02);
     }
 
-    .btn-small {
-      padding: 6px 13px;
-      font-size: 12px;
-    }
+    .btn-small { padding: 6px 13px; font-size: 12px; }
+    .btn-large { padding: 11px 20px; font-size: 14px; }
+    .btn-icon { font-size: 16px; margin-left: 2px; }
 
     /* HERO */
     .hero {
@@ -198,6 +165,14 @@
       grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr);
       gap: 26px;
       align-items: center;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--kr-text-soft);
+      margin-bottom: 10px;
     }
 
     .hero-main-card {
@@ -228,8 +203,7 @@
     }
 
     .hero-pill-dot {
-      width: 7px;
-      height: 7px;
+      width: 7px; height: 7px;
       border-radius: 999px;
       background: #22c55e;
       box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
@@ -242,10 +216,7 @@
       letter-spacing: -0.04em;
       margin-bottom: 12px;
     }
-
-    .hero-title span.gold {
-      color: var(--kr-gold);
-    }
+    .hero-title span.gold { color: var(--kr-gold); }
 
     .hero-sub {
       font-size: 14px;
@@ -263,16 +234,6 @@
       margin-bottom: 20px;
     }
 
-    .btn-large {
-      padding: 11px 20px;
-      font-size: 14px;
-    }
-
-    .btn-icon {
-      font-size: 16px;
-      margin-left: 2px;
-    }
-
     .hero-footnote {
       font-size: 12px;
       color: var(--kr-text-soft);
@@ -280,7 +241,6 @@
       align-items: center;
       gap: 8px;
     }
-
     .hero-footnote span.badge {
       font-size: 11px;
       padding: 3px 9px;
@@ -308,11 +268,7 @@
       align-items: center;
       font-size: 12px;
     }
-
-    .hero-side-title {
-      font-weight: 600;
-    }
-
+    .hero-side-title { font-weight: 600; }
     .hero-side-badge {
       padding: 3px 8px;
       border-radius: 999px;
@@ -322,10 +278,7 @@
       color: #e5e7eb;
     }
 
-    .hero-side-metric-row {
-      display: flex;
-      gap: 10px;
-    }
+    .hero-side-metric-row { display: flex; gap: 10px; }
 
     .hero-side-metric {
       flex: 1;
@@ -334,13 +287,11 @@
       background: rgba(15, 23, 42, 0.94);
       border: 1px solid rgba(31, 41, 55, 0.9);
     }
-
     .metric-label {
       font-size: 11px;
       color: var(--kr-text-soft);
       margin-bottom: 4px;
     }
-
     .metric-value {
       font-size: 17px;
       font-weight: 700;
@@ -348,7 +299,6 @@
       align-items: baseline;
       gap: 4px;
     }
-
     .metric-chip {
       font-size: 11px;
       padding: 2px 7px;
@@ -366,9 +316,9 @@
       color: var(--kr-text-soft);
     }
 
-    /* FEATURES / MINI DASHBOARD */
+    /* FEATURES / MINI DASHBOARD / ABOUT */
     .section-row {
-      margin-top: 26px;
+      margin-top: 48px;
       display: grid;
       grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr);
       gap: 22px;
@@ -454,16 +404,8 @@
       border: 1px dashed rgba(75, 85, 99, 0.9);
       font-size: 11px;
     }
-
-    .mini-stat-label {
-      color: var(--kr-text-soft);
-      margin-bottom: 2px;
-    }
-
-    .mini-stat-value {
-      font-size: 14px;
-      font-weight: 600;
-    }
+    .mini-stat-label { color: var(--kr-text-soft); margin-bottom: 2px; }
+    .mini-stat-value { font-size: 14px; font-weight: 600; }
 
     .status-list {
       display: flex;
@@ -507,9 +449,25 @@
       color: #bbf7d0;
     }
 
+    /* ABOUT SECTION */
+    .about-text {
+      font-size: 13px;
+      color: var(--kr-text-soft);
+      line-height: 1.7;
+      margin-top: 8px;
+    }
+    .about-columns {
+      display: flex;
+      gap: 18px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--kr-text-soft);
+    }
+    .about-col { flex: 1; }
+
     /* FOOTER STRIP */
     .footer-strip {
-      margin-top: 24px;
+      margin-top: 40px;
       padding: 11px 16px;
       border-radius: 999px;
       border: 1px solid rgba(30, 64, 175, 0.6);
@@ -521,16 +479,23 @@
       font-size: 12px;
       color: #e5e7eb;
     }
-
-    .footer-strip span.muted {
-      color: var(--kr-text-soft);
-    }
-
+    .footer-strip span.muted { color: var(--kr-text-soft); }
     .footer-kb-link {
       font-weight: 500;
       text-decoration: underline;
       text-decoration-style: dotted;
       text-underline-offset: 3px;
+    }
+
+    .site-footer {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(24, 24, 35, 0.85);
+      font-size: 11px;
+      color: var(--kr-text-soft);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     /* RESPONSIVE */
@@ -540,75 +505,46 @@
         grid-template-columns: minmax(0, 1fr);
       }
 
-      .nav {
-        padding-inline: 14px;
-      }
+      .nav { padding-inline: 14px; }
 
-      .nav-links {
-        display: none;
-      }
+      .nav-links { display: none; }
 
-      .page-shell {
-        padding-inline: 14px;
-      }
+      .page-shell { padding-inline: 14px; }
     }
 
     @media (max-width: 640px) {
-      .hero-main-card {
-        padding: 22px 18px 18px;
-      }
-
-      .hero-cta-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .feature-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .footer-strip {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+      .hero-main-card { padding: 22px 18px 18px; }
+      .hero-cta-row { flex-direction: column; align-items: stretch; }
+      .feature-grid { grid-template-columns: minmax(0, 1fr); }
+      .footer-strip { flex-direction: column; align-items: flex-start; }
+      .site-footer { flex-direction: column; }
     }
   </style>
 </head>
 <body>
   <div class="page-shell">
     <!-- NAVBAR -->
-    <header class="nav">
+    <header class="nav fade-in">
       <div class="nav-left">
-        <div class="logo-mark">
-          <span>KR</span>
-        </div>
+        <div class="logo-mark"><span>KR</span></div>
         <div class="logo-text">
           <div class="logo-title">THE KIT ROOM</div>
-          <div class="logo-sub">Precision hosting for serious creators</div>
+          <div class="logo-sub">Premium game & app hosting</div>
         </div>
       </div>
 
       <nav class="nav-links">
-        <a href="#status" class="nav-link">Status</a>
+        <a href="#hero" class="nav-link">Home</a>
         <a href="#features" class="nav-link">Features</a>
         <a href="#overview" class="nav-link">Overview</a>
+        <a href="#about" class="nav-link">About</a>
       </nav>
 
       <div class="nav-cta-group">
-        <a
-          href="https://panel.thekitroom.net/"
-          target="_blank"
-          rel="noreferrer"
-          class="btn btn-gold-outline btn-small"
-        >
+        <a href="https://panel.thekitroom.net/" target="_blank" rel="noreferrer" class="btn btn-gold-outline btn-small">
           Panel
         </a>
-        <a
-          href="https://billing.thekitroom.net/login"
-          target="_blank"
-          rel="noreferrer"
-          class="btn btn-gold-solid btn-small"
-        >
+        <a href="https://billing.thekitroom.net/login" target="_blank" rel="noreferrer" class="btn btn-gold-solid btn-small">
           Start now
         </a>
       </div>
@@ -616,8 +552,10 @@
 
     <!-- HERO -->
     <main>
-      <section class="hero">
-        <div class="hero-main-card">
+      <section class="hero" id="hero">
+        <div class="hero-main-card fade-in">
+          <div class="section-label">Landing dashboard</div>
+
           <div class="hero-pill">
             <span class="hero-pill-dot"></span>
             <span>Systems online</span>
@@ -629,8 +567,7 @@
           </h1>
 
           <p class="hero-sub">
-            Fast deployments, bulletproof uptime, and instant panel access.
-            Step into the high‑end server room built for those who do not compromise on performance.
+            Fast deployments, high‑uptime infrastructure, and instant panel access – built for studios and creators who cannot afford downtime.
           </p>
 
           <div class="hero-cta-row">
@@ -640,7 +577,7 @@
               rel="noreferrer"
               class="btn btn-gold-solid btn-large"
             >
-              Deploy Server / Start Now
+              Start now – go to billing
               <span class="btn-icon">➜</span>
             </a>
 
@@ -650,7 +587,7 @@
               rel="noreferrer"
               class="btn btn-gold-outline btn-large"
             >
-              Panel / Access Panel
+              Open control panel
             </a>
           </div>
 
@@ -660,7 +597,7 @@
           </div>
         </div>
 
-        <aside class="hero-side-card" id="status">
+        <aside class="hero-side-card fade-in" id="status">
           <div class="hero-side-header">
             <span class="hero-side-title">Live network snapshot</span>
             <span class="hero-side-badge">Sample data</span>
@@ -692,7 +629,7 @@
 
       <!-- FEATURES + MINI DASHBOARD -->
       <section class="section-row" id="features">
-        <article class="card">
+        <article class="card fade-in">
           <div class="card-header">
             <h2 class="card-title">Built for game hosting</h2>
             <span class="card-tag">Feature set</span>
@@ -741,7 +678,7 @@
           </div>
         </article>
 
-        <article class="card" id="overview">
+        <article class="card fade-in" id="overview">
           <div class="card-header">
             <h2 class="card-title">Session overview</h2>
             <span class="card-tag">Visual snapshot</span>
@@ -773,8 +710,53 @@
         </article>
       </section>
 
-      <!-- FOOTER STRIP -->
-      <section class="footer-strip">
+      <!-- ABOUT / MORE WEBSITE FEEL -->
+      <section class="section-row" id="about">
+        <article class="card fade-in">
+          <div class="card-header">
+            <h2 class="card-title">Why The Kit Room</h2>
+            <span class="card-tag">For studios & creators</span>
+          </div>
+          <p class="about-text">
+            The Kit Room is built by operators who have actually run live games and communities. The stack is tuned for low‑latency sessions,
+            predictable billing, and production‑ready automation rather than hobby‑grade servers.
+          </p>
+          <div class="about-columns">
+            <div class="about-col">
+              <strong>For creators</strong><br />
+              Launch worlds, private servers, or community hubs without touching bare metal. Your panel stays simple while the platform
+              handles scaling and safety.
+            </div>
+            <div class="about-col">
+              <strong>For teams</strong><br />
+              Use opinionated defaults for most workloads, or hand the controls to your engineers and plug into existing CI/CD, monitor
+              exports and alerting.
+            </div>
+          </div>
+        </article>
+
+        <article class="card fade-in">
+          <div class="card-header">
+            <h2 class="card-title">Ready when you are</h2>
+            <span class="card-tag">Next steps</span>
+          </div>
+          <p class="about-text">
+            Use this dashboard as your jumping‑off point. Head into billing to spin up capacity, or go straight to the control panel
+            to manage what is already live.
+          </p>
+          <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 12px;">
+            <a href="https://billing.thekitroom.net/login" target="_blank" rel="noreferrer" class="btn btn-gold-solid btn-large" style="width: 100%; justify-content: center;">
+              Start now in billing
+            </a>
+            <a href="https://panel.thekitroom.net/" target="_blank" rel="noreferrer" class="btn btn-gold-outline btn-large" style="width: 100%; justify-content: center;">
+              Open existing panel
+            </a>
+          </div>
+        </article>
+      </section>
+
+      <!-- FOOTER STRIP + FOOTER -->
+      <section class="footer-strip fade-in">
         <div>
           Need to jump straight into your stack?
           <span class="footer-kb-link">Open the panel</span> or kick off a new deployment in billing.
@@ -785,7 +767,32 @@
           <a href="https://billing.thekitroom.net/login" target="_blank" rel="noreferrer">Billing</a>
         </div>
       </section>
+
+      <footer class="site-footer">
+        <span>© <span id="year"></span> The Kit Room. All rights reserved.</span>
+        <span>Landing dashboard · v1.</span>
+      </footer>
     </main>
   </div>
+
+  <script>
+    // Fade-in on scroll
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
